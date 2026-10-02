@@ -20,3 +20,5 @@ Additional primary syntax references (read as evidence only; no implementation c
 - `lib/fieldtab.h`, SHA-256 `0c2f387050c406e0efff2acde741d31c673b36652ffa5b2947a4e7b3ec2f81fe`: https://raw.githubusercontent.com/linux-audit/audit-userspace/ccd29d145591aba9dd5a01b3207d3dbd18e2413b/lib/fieldtab.h
 - `lib/ftypetab.h`, SHA-256 `5589603cd09e2a1ef274a18e8a5c9886b4a2fab91a0f29abb26b24bea6f70886`: https://raw.githubusercontent.com/linux-audit/audit-userspace/ccd29d145591aba9dd5a01b3207d3dbd18e2413b/lib/ftypetab.h
 - `lib/libaudit.c`, SHA-256 `cbdf4c8fe5cbb652015b756b3066042c9c5311d79fb756307361afe61aea9470`: https://raw.githubusercontent.com/linux-audit/audit-userspace/ccd29d145591aba9dd5a01b3207d3dbd18e2413b/lib/libaudit.c
+
+- Typed operator/filter restrictions additionally reference `kernel/auditfilter.c` at `ce1e0223d8ad4211275c82a17ed6d43ab81e13d9`, SHA-256 `252293259959ebf526c7af63c32f5c4b42712b3e385f4ef5f11f2d70903a1b61`: https://raw.githubusercontent.com/torvalds/linux/ce1e0223d8ad4211275c82a17ed6d43ab81e13d9/kernel/auditfilter.c . This is a source-informed validation matrix, not bundled upstream implementation or kernel execution.

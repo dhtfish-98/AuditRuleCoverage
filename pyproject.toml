@@ -5,7 +5,7 @@ backend-path = ["."]
 
 [project]
 name = "audit-rule-coverage"
-version = "0.1.0"
+version = "0.1.1"
 requires-python = ">=3.10"
 description = "Selected typed audit rule syntax and complete frozen literal baseline coverage"
 license = {text = "Apache-2.0"}

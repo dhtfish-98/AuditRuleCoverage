@@ -3,5 +3,6 @@
   "package": "audit_rule_coverage",
   "command": "audit-rule-coverage",
   "license": "Apache-2.0",
-  "description": "Selected typed audit rule syntax and complete frozen literal baseline coverage"
+  "description": "Selected typed audit rule syntax and complete frozen literal baseline coverage",
+  "version": "0.1.1"
 }

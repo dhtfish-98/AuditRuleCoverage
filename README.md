@@ -13,3 +13,10 @@ Install the wheel in `artifacts/`, then run `audit-rule-coverage examples/good.j
 Each finding includes check, PASS/FAIL/OPEN, evidence location and explanation. Overall status is FAIL if a check fails; otherwise OPEN for incomplete/unsupported input; otherwise PASS for only this declared static scope. Exit codes: PASS 0, FAIL 1, ERROR 2, OPEN 3. See `examples/expectations.json`, `tests/`, `VALIDATION.md`, `ORIGIN.md`, `NOTICE` where present, and exact `artifacts/validation.json`.
 
 Snapshot results do not prove runtime security, actual authorization, upstream equivalence or CVP qualification/approval.
+
+
+The file CLI requires non-following, non-blocking descriptor support (`O_NOFOLLOW` and `O_NONBLOCK`). Missing capabilities return controlled ERROR without weakening safe-file reads. This profile targets capable macOS/Linux environments; native Windows file-CLI behavior has not been verified. Windows observations remain supplied JSON data.
+
+Selected typed field/operator guards follow the frozen Linux `audit_field_valid` matrix: identity and selected numeric fields reject bitwise operators, equality-only fields reject ordering/bitwise operations, and filesystem filters permit only fstype/key. Syscall arguments, personality and devminor retain bitwise support. Root/wildcard watch paths are OPEN; absolute watch paths are limited to 4096 UTF-8 bytes. Existing stricter profile choices (equality-only inode, equality key/perm, host-dependent label/features OPEN) remain explicit and are not claims of full kernel equivalence.
+
+Literal baseline identities preserve the distinction between `-C` inter-field comparisons and `-F` identity-name/numeric filters; substituting one does not establish the frozen comparison rule. Attribution `-k`/`-F key=` remains normalized as the same key declaration.

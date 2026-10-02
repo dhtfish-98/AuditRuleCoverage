@@ -1,5 +1,6 @@
 """Validate audit rule syntax and literal baseline coverage without loading rules."""
 import collections
+import posixpath
 import re
 import shlex
 from importlib.resources import files as resources
@@ -17,6 +18,13 @@ SELINUX = {'subj_type','subj_user','subj_role','subj_sen','subj_clr','obj_type',
 # The frozen baseline establishes recognized spellings only, never host ABI support.
 KNOWN_SYSCALLS = set(re.findall(r'(?:^|\s)-S\s+(\S+)', resources(__package__).joinpath('baseline.rules').read_text()))
 KNOWN_SYSCALLS = {part for value in KNOWN_SYSCALLS for part in value.split(',')} | {'all'}
+# Frozen Linux audit_field_valid operator families (kernel/auditfilter.c).
+ALL_OPERATORS = {'a0','a1','a2','a3','pers','devminor'}
+NO_BIT_OPERATORS = UID | GID | {'pid','msgtype','ppid','devmajor','exit','success','inode',
+    'sessionid','subj_sen','subj_clr','obj_lev_low','obj_lev_high','saddr_fam'}
+EQUALITY_OPERATORS = {'subj_user','subj_role','subj_type','obj_user','obj_role','obj_type',
+    'path','dir','key','loginuid_set','arch','fstype','perm','filetype','field_compare','exe'}
+
 FIELD = re.compile(r'([A-Za-z][A-Za-z0-9_]*)(!=|>=|<=|&=|[=<>&])([^\s]+)')
 
 def numeric(value, label, low=0, high=2**32-1):
@@ -42,6 +50,12 @@ def filter_field(value, option, filter_, report, where):
         if name==operand or not ((name in UID and operand in UID) or (name in GID and operand in GID)):
             raise InputError('incompatible inter-field identity comparison')
         return
+    if name in NO_BIT_OPERATORS and op in ('&','&='):
+        raise InputError('bitwise operator unsupported for selected field: '+name)
+    if name in EQUALITY_OPERATORS and op not in ('=','!='):
+        raise InputError('selected field requires =/!=: '+name)
+    if filter_=='filesystem' and name not in ('fstype','key'):
+        raise InputError('filesystem list supports only fstype/key fields')
     if name=='key':
         if op!='=':raise InputError('key supports only equality in selected scope')
         key_value(operand);return
@@ -75,7 +89,7 @@ def filter_field(value, option, filter_, report, where):
         if op not in ('=','!=') or (name in ('path','dir') and op!='='):raise InputError('invalid path operator')
         if name in ('path','dir') and filter_!='exit':raise InputError('watch path requires exit list')
         if not operand.startswith('/') or len(operand.encode('utf-8'))>4096:raise InputError('audit path must be bounded absolute path')
-        if operand=='/' or any(c in operand for c in '*?['):report.add('path_semantics','OPEN',where,'Root/wildcard path unsupported by selected watch scope')
+        if posixpath.normpath(operand).strip('/')=='' or any(c in operand for c in '*?['):report.add('path_semantics','OPEN',where,'Root/wildcard path unsupported by selected watch scope')
         return
     if name=='filetype':
         if filter_!='exit' or operand not in ('file','dir','socket','link','character','block','fifo'):raise InputError('invalid filetype/list')
@@ -114,7 +128,10 @@ def parse(text, report):
             if tokens[i] not in ('-p','-k','-F','-S','-C') or i+1 >= len(tokens): raise InputError("invalid audit option at " + where)
             values[tokens[i]].append(tokens[i+1]); i += 2
         if tokens[0] == '-w':
-            if not tokens[1].startswith('/'): raise InputError("watch path must be absolute")
+            if not tokens[1].startswith('/') or len(tokens[1].encode('utf-8'))>4096:
+                raise InputError('watch path must be bounded and absolute')
+            if posixpath.normpath(tokens[1]).strip('/')=='' or any(c in tokens[1] for c in '*?['):
+                report.add('path_semantics','OPEN',where,'Root/wildcard watch path unsupported by selected scope')
             if len(values['-p']) != 1 or not values['-p'][0] or len(values['-p'][0])>4 or set(values['-p'][0])-set('rwxa'):
                 report.add("watch_permissions", "FAIL", where, "Watch requires one valid -p permission set")
             for key in values['-k']:key_value(key)
@@ -147,7 +164,10 @@ def parse(text, report):
         if 'never' in action and not fields: report.add("suppression", "FAIL", where, "Unbounded never filter suppresses auditing")
         elif 'never' in action: report.add("suppression", "OPEN", where, "Suppression/filter ordering needs review")
         if tokens[0]=='-A': report.add("prepend", "OPEN", where, "Prepending changes filter order")
-        parsed.append(('-a',tuple(sorted(action)),tuple(sorted(fields+['key='+k for k in keys])),tuple(calls),where))
+        # Inter-field comparisons (-C) are not identity-name filters (-F).
+        # Preserve their option class in literal baseline identities.
+        identified_fields=[option+' '+value for option in ('-F','-C') for value in values[option] if not value.startswith('key=')]
+        parsed.append(('-a',tuple(sorted(action)),tuple(sorted(identified_fields+['key='+k for k in keys])),tuple(calls),where))
     return parsed
 
 def analyze(snapshot):
