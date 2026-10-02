@@ -1,3 +1,5 @@
+# Author: dhtfish98
+# Copyright (c) 2026 dhtfish98
 """Validate audit rule syntax and literal baseline coverage without loading rules."""
 import collections
 import posixpath
