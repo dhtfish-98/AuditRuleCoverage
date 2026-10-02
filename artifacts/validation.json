@@ -1,0 +1,14 @@
+{
+  "project": "AuditRuleCoverage",
+  "status": "PASS",
+  "test_count": 31,
+  "wheel": "audit_rule_coverage-0.1.0-py3-none-any.whl",
+  "wheel_sha256": "1cc26d66bf248bc5ad7b3f1b18094254802826347cf89238d8ed4566a5d1c556",
+  "verification": "Local supported and malformed input tests, wheel build, separate install, imported package origin and CLI checks",
+  "reproduction": [
+    "python -m pip install .",
+    "python -m unittest discover -s tests -v",
+    "python -m pip wheel --no-deps --wheel-dir artifacts ."
+  ],
+  "limits": "Point-in-time engineering evidence only; CVP qualification and approval remain OPEN"
+}

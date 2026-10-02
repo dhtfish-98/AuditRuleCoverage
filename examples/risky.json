@@ -1,0 +1,4 @@
+{
+  "rules": "-a never,exit",
+  "check_baseline": false
+}

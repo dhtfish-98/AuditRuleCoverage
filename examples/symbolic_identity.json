@@ -1,0 +1,4 @@
+{
+  "rules": "-a always,exit -F arch=b64 -F uid=root -S open -k access",
+  "check_baseline": false
+}

@@ -1,0 +1,1 @@
+Complete frozen baseline.rules from Neo23x0/auditd, maintained by Nextron Systems. Apache-2.0 license retained. Rule loading scripts are not executed or shipped. New offline comparator is not equivalent to Linux audit or the upstream CI loader.

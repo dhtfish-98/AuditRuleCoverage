@@ -1,0 +1,4 @@
+{
+  "rules": "-b 8192\n-f 1\n-w /etc/sudoers -p wa -k policy",
+  "check_baseline": false
+}

@@ -1,0 +1,14 @@
+[build-system]
+requires = []
+build-backend = "backend"
+backend-path = ["."]
+
+[project]
+name = "audit-rule-coverage"
+version = "0.1.0"
+requires-python = ">=3.10"
+description = "Selected typed audit rule syntax and complete frozen literal baseline coverage"
+license = {text = "Apache-2.0"}
+
+[project.scripts]
+audit-rule-coverage = "audit_rule_coverage.cli:main"
