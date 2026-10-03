@@ -1,0 +1,40 @@
+{
+  "schema": "project-build-layout.v1",
+  "project": "AuditRuleCoverage",
+  "author": "dhtfish98",
+  "kind": "python-wheel",
+  "base_public_commit": "151c5c090afe8709c016291c50b6dda502b2a425",
+  "restored_inputs": [
+    {
+      "original": "COPYRIGHT.md",
+      "stored": "项目文档/COPYRIGHT.md",
+      "sha256": "0989a74acaf06c56e82a734d27342f0bdf47258b708e88f57de464d95c094502"
+    },
+    {
+      "original": "LICENSE",
+      "stored": "项目文档/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "original": "NOTICE",
+      "stored": "项目文档/NOTICE",
+      "sha256": "06be411535aaf1f8319a89a00f48ab346659dd02e0fe81284831af995589fb50"
+    },
+    {
+      "original": "ORIGIN.md",
+      "stored": "项目文档/ORIGIN.md",
+      "sha256": "a1e26c9a6adf919a44ec9fedc1b936b6ed38f8f87a270decfd8ecd4ea948a9f4"
+    },
+    {
+      "original": "README.md",
+      "stored": "项目文档/README.md",
+      "sha256": "96727ff9a92c278edb5ddfa89949132b42b2b9a545399d8311c71756f3274b57"
+    },
+    {
+      "original": "VALIDATION.md",
+      "stored": "项目文档/VALIDATION.md",
+      "sha256": "27ced26eb996b7210813a6f3bc5cf0b6d4865d998eb677c9c7e7463a0f3cf8f1"
+    }
+  ],
+  "platform_entries": []
+}
