@@ -12,7 +12,7 @@ Input: `{ "rules": "audit rule text", "check_baseline": true }`. Selected syntax
 
 ## Use
 
-Install the wheel in `artifacts/`, then run `audit-rule-coverage examples/good.json`. Or use `python -m audit_rule_coverage examples/good.json`. JSON input is limited to 2 MiB, 32 nesting levels and 100000 nodes; duplicate keys, non-finite values, changed files, symlinks and non-regular files are rejected. Findings are capped at 20000. No network requests, host collection, policy changes or shell execution occur.
+Install the published v0.1.2 wheel from GitHub Releases, or run `python3 构建.py --build` from the repository root and install the wheel under the reported `Build/新构建/.../发行/` directory; then run `audit-rule-coverage examples/good.json`. Or use `python -m audit_rule_coverage examples/good.json`. JSON input is limited to 2 MiB, 32 nesting levels and 100000 nodes; duplicate keys, non-finite values, changed files, symlinks and non-regular files are rejected. Findings are capped at 20000. No network requests, host collection, policy changes or shell execution occur.
 
 ## Output and verification
 
